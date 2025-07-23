@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link 
+    href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" 
+    rel="stylesheet" 
+  />
+  <style>
+    html, body { margin:0; padding:0; height:100%; }
+    #chat { height:100%; }
+  </style>
+</head>
+<body>
+  <div id="chat"></div>
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    createChat({
+      webhookUrl: 'https://n8n.YOUR_DOMAIN/webhook/YOUR_ID/chat',
+      mode: 'embedded',
+      target: '#chat',
+      chatInputKey: 'chatInput',
+      chatSessionKey: 'sessionId',
+    });
+  </script>
+</body>
+</html>
