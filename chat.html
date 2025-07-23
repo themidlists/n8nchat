@@ -1,28 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link 
-    href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" 
-    rel="stylesheet" 
-  />
-  <style>
-    html, body { margin:0; padding:0; height:100%; }
-    #chat { height:100%; }
-  </style>
+  <title>n8n Embedded Chat</title>
 </head>
 <body>
-  <div id="chat"></div>
-  <script type="module">
-    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-    createChat({
-      webhookUrl: 'https://n8n.YOUR_DOMAIN/webhook/YOUR_ID/chat',
-      mode: 'embedded',
-      target: '#chat',
-      chatInputKey: 'chatInput',
-      chatSessionKey: 'sessionId',
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/n8n-embedded-chat-interface@latest/output/index.js"></script>
+  <n8n-embedded-chat-interface
+    label="Assistant"
+    hostname="https://n8n.srv847615.hstgr.cloud/webhook/fa03de47-25ba-4f47-b747-1712e0298701"
+    open-on-start="false"
+    style="width:100%; height:600px; display:block;"
+  ></n8n-embedded-chat-interface>
 </body>
 </html>
