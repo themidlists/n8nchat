@@ -1,16 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" style="height:100%; margin:0; padding:0;">
 <head>
-  <meta charset="UTF-8" />
-  <title>n8n Embedded Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>n8n Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+  <style>
+    html, body { height:100%; margin:0; }
+    body { display:flex; flex-direction:column; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; }
+    /* Chat container fills viewport */
+    #chat-root { flex:1; display:flex; flex-direction:column; }
+    /* Fix input at top */
+    .n8n-chat .chat-input {
+      position: sticky !important;
+      top: 0; z-index: 10;
+      background: #f8f9fa !important;
+      border-bottom:1px solid #e1e5e9 !important;
+      padding:12px !important;
+    }
+    /* Scrollable messages */
+    .n8n-chat .chat-messages {
+      flex:1 !important;
+      overflow-y:auto !important;
+      scroll-behavior:smooth !important;
+      padding:16px !important;
+    }
+    /* Hide scrollbars */
+    .n8n-chat .chat-messages::-webkit-scrollbar { width:0; }
+    .n8n-chat .chat-messages { scrollbar-width:none; -ms-overflow-style:none; }
+  </style>
 </head>
 <body>
-  <script src="https://cdn.jsdelivr.net/npm/n8n-embedded-chat-interface@latest/output/index.js"></script>
-  <n8n-embedded-chat-interface
-    label="Assistant"
-    hostname="https://n8n.srv847615.hstgr.cloud/webhook/fa03de47-25ba-4f47-b747-1712e0298701"
-    open-on-start="false"
-    style="width:100%; height:600px; display:block;"
-  ></n8n-embedded-chat-interface>
+  <div id="chat-root"></div>
+
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+      webhookUrl: 'https://n8n.srv847615.hstgr.cloud/webhook/fa03de47-25ba-4f47-b747-1712e0298701/chat',
+      target: '#chat-root',
+      mode: 'fullscreen',
+      theme: { primaryColor: '#7F3F98' },
+      poweredBy: false,
+      showWelcomeScreen: false,
+      chatWindowConfig: { autoScroll: true, scrollBehavior: 'smooth' }
+    });
+  </script>
+
+  <!-- Conditional auto-scroll -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const box = document.querySelector('.n8n-chat .chat-messages');
+      if (!box) return;
+      let atBottom = true;
+      box.addEventListener('scroll', () => {
+        atBottom = (box.scrollHeight - box.scrollTop - box.clientHeight) < 100;
+      });
+      new MutationObserver(() => {
+        if (atBottom) box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' });
+      }).observe(box, { childList:true, subtree:true });
+    });
+  </script>
 </body>
 </html>
